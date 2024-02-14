@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+    <title>BlogShip</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Agregar Bootstrap CSS -->
+    <link href="/webjars/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Agregar Bootstrap Icons CSS -->
+    <link href="/webjars/bootstrap-icons/1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/styles.css" th:href="@{/css/styles.css}">
+</head>
+<body class="bodyRegistro">
+	<header>
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div id="top" class="container">
+                <i class="bi bi-rocket-takeoff"></i><i class="bi bi-caret-left"></i></a>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a th:href="@{/controller/login}" class="nav-link">Iniciar Sesión</a>
+                    </li>
+                    <li style="margin-left: 10px;"class="nav-item active">
+                        <a th:href="@{/controller/registrar}" class="nav-link">Registro</a>
+                    </li>
+                </ul>
+            </div>
+                <i class="bi bi-caret-right"></i><i class="bi bi-rocket-takeoff"></i></a>
+        </div>
+    </nav>
+    </header>
+     <div id="inicio"></div>
+    <div class="container contenido1" style="margin-top: 70px;">
+        <main role="main" class="pb-3">
+            <div class="form-container">
+        <form th:action="@{/controller/registrar}" th:object="${usuario}"method="post">
+            <h2 class="text-center mb-4">Registrate en BlogShip <i class="bi bi-rocket-takeoff"></i>!</h2>
+            <div class="form-group">
+                <label for="nombreCompleto_usuario"><i class="bi bi-caret-right"></i>Nombre Completo</label>
+                <input id="nombreCompleto_usuario" th:field="*{nombreCompleto_usuario}"type="text" class="form-control" placeholder="Juan García Pérez" required>
+            </div>
+            <div class="form-group">
+                <label for="movil_usuario"><i class="bi bi-caret-right"></i>Teléfono</label>
+                <input  id="movil_usuario" th:field="*{movil_usuario}" type="text" class="form-control" placeholder="" required pattern="[0-9]{9}">
+            </div>
+            <div class="form-group">
+                <label for="alias_usuario"><i class="bi bi-person"></i>Alias de Usuario</label>
+                <input id="alias_usuario" th:field="*{alias_usuario}" type="text" class="form-control"placeholder="'juangarper'" required>
+            </div>
+            <div class="form-group">
+                <label for="email_usuario"><i class="bi bi-envelope-at"></i>Email</label>
+                <input id="email_usuario" th:field="*{email_usuario}"type="email" class="form-control"placeholder="juangarcia@gmail.com" required>
+            </div>
+            <div class="form-group">
+                <label for="passwd_usuario"><i class="bi bi-asterisk"></i>Contraseña</label>
+                <div class="input-group">
+                    <input  id="passwd_usuario" th:field="*{passwd_usuario}" type="password" class="form-control" pattern="^(?=.*[A-Z])(?=.*\d).{8,}$" required>
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-outline-secondary" id="togglePassword">Mostrar</button>
+                    </div>
+                </div>
+                <small id="passwordHelp" class="form-text text-muted">
+                    La contraseña debe contener al menos 8 carácteres,una letra mayúscula y un número.
+                </small>
+                <small id="passwordHelp" class="form-text text-muted">
+                    El número de teléfono tiene que tener 9 digitos(0-9).
+                </small>
+            </div>
+            <button type="submit" class="btn btn-dark btn-block">Registrar</button>
+        </form>
+    </div>
+        </main>
+    </div>
+    <footer class="bg-light text-dark text-center py-3 mt-auto footer">
+        <div class="container">
+            <!--Le asigno una id al enlace para indicar a que parte ir
+            (este vuelve justo abajo del header al inicio de todo)-->
+            <p><a href="#inicio"><i class="bi bi-arrow-up-circle-fill"></i></a></p>
+            <p class="mb-0">© 2024 BlogShip</p>
+            <p class="mb-0">Diseñado por <a href="https://github.com/nocea" target="_blank">Mario Nocea Cabrera</a></p>
+        </div>
+    </footer>
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var passwordInput = document.querySelector('input[name="passwd_usuario"]');
+            var togglePasswordButton = document.getElementById('togglePassword');
+
+            togglePasswordButton.addEventListener('click', function () {
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    togglePasswordButton.textContent = 'Ocultar';
+                } else {
+                    passwordInput.type = 'password';
+                    togglePasswordButton.textContent = 'Mostrar';
+                }
+            });
+        });
+    </script> 
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

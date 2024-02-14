@@ -1,0 +1,36 @@
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #f8f9fa; /* Cambia esto al color de fondo que desees */
+    color: #212529; /* Cambia esto al color de texto que desees */
+    padding: 20px 0; /* Ajusta el relleno según sea necesario */
+}
+.contenido1 {
+    flex: 1;
+}
+﻿.bodyRegistro {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.form-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 70vh; /* Ajusta la altura del contenedor del formulario */
+}
+
+.form-container form {
+        max-width: 400px;
+        width: 100%;
+
+}
+form button[type="submit"] {
+        width: 100%;
+    }
+.confirmation-container {
+    text-align: center;
+    margin-top: 50px;
+}
