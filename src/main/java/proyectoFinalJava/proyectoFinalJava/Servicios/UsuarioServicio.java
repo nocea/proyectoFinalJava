@@ -5,4 +5,6 @@ import proyectoFinalJava.proyectoFinalJava.Modelos.Usuario;
 
 public interface UsuarioServicio {
 public Boolean registrar(UsuarioDTO usuarioDTO);
+
+public UsuarioDTO convertirUsuarioADTO(Usuario usuario);
 }

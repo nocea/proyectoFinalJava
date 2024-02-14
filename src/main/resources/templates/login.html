@@ -31,7 +31,22 @@
     <div id="inicio"></div>
     <div class="container contenido1" style="margin-top: 70px;">
         <main role="main" class="pb-3">
-            contenido principal
+            <div class="form-container">
+        <form th:action="@{/controller/login-post}" method="post">
+            <h2 class="text-center mb-4">Iniciar Sesión en BlogShip <i class="bi bi-rocket-takeoff"></i></h2>
+            <div class="form-group">
+                <label for="emailUsuario"><i class="bi bi-person"></i>Email</label>
+                <input id="login-username" type="email" class="form-control ps-3" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="passwd_usuario"><i class="bi bi-asterisk"></i>Contraseña</label>             
+                    <input id="login-password" type="password" class="form-control ps-3" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-dark btn-block">Iniciar Sesión</button>
+            <a class="btn btn-link">¿Olvidaste tu contraseña?</a>
+            <a th:href="@{/controller/registrar}"class="btn btn-link">¿No se ha registrado?</a>
+        </form>
+        </div>
         </main>
     </div>
     <footer class="bg-light text-dark text-center py-3 mt-auto footer">

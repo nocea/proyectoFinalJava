@@ -13,19 +13,32 @@ public class Usuario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id_usuario;
-	private String nombreCompleto_usuario;
+	//Lo tengo que llamar asi para que me lo coja bien el repositorio y busque por el igual que el email.
+	private String nombreCompletoUsuario;
 	@Column(name = "email_usuario", nullable = false, unique = true, length = 100)
 	private String emailUsuario;
 	private String alias_usuario;
 	private String movil_usuario;
 	private String passwd_usuario;
 	private String rol_usuario;
+	private Boolean registrado;
+	
+	public String getNombreCompletoUsuario() {
+		return nombreCompletoUsuario;
+	}
+	public void setNombreCompletoUsuario(String nombreCompletoUsuario) {
+		this.nombreCompletoUsuario = nombreCompletoUsuario;
+	}
+	public Boolean getRegistrado() {
+		return registrado;
+	}
+	public void setRegistrado(Boolean registrado) {
+		this.registrado = registrado;
+	}
 	public Long getId_usuario() {
 		return id_usuario;
 	}
-	public String getNombreCompleto_usuario() {
-		return nombreCompleto_usuario;
-	}
+	
 	public String getAlias_usuario() {
 		return alias_usuario;
 	}
@@ -39,9 +52,7 @@ public class Usuario {
 	public String getEmailUsuario() {
 		return emailUsuario;
 	}
-	public void setNombreCompleto_usuario(String nombreCompleto_usuario) {
-		this.nombreCompleto_usuario = nombreCompleto_usuario;
-	}
+	
 	public void setEmailUsuario(String emailUsuario) {
 		this.emailUsuario = emailUsuario;
 	}
@@ -51,9 +62,7 @@ public class Usuario {
 	public void setId_usuario(Long id_usuario) {
 		this.id_usuario = id_usuario;
 	}
-	public void setNombreCompletp_usuario(String nombreCompleto_usuario) {
-		this.nombreCompleto_usuario = nombreCompleto_usuario;
-	}
+	
 	public void setAlias_usuario(String alias_usuario) {
 		this.alias_usuario = alias_usuario;
 	}
@@ -66,15 +75,16 @@ public class Usuario {
 	public void setRol_usuario(String rol_usuario) {
 		this.rol_usuario = rol_usuario;
 	}
-	public Usuario(String nombreCompleto_usuario, String emailUsuario, String alias_usuario,
-			String movil_usuario, String passwd_usuario, String rol_usuario) {
+	public Usuario(String nombreCompletoUsuario, String emailUsuario, String alias_usuario,
+			String movil_usuario, String passwd_usuario, String rol_usuario,Boolean registrado) {
 		super();
-		this.nombreCompleto_usuario = nombreCompleto_usuario;
+		this.nombreCompletoUsuario = nombreCompletoUsuario;
 		this.emailUsuario = emailUsuario;
 		this.alias_usuario = alias_usuario;
 		this.movil_usuario = movil_usuario;
 		this.passwd_usuario = passwd_usuario;
 		this.rol_usuario = rol_usuario;
+		this.registrado=registrado;
 	}
 	public Usuario() {
 		super();

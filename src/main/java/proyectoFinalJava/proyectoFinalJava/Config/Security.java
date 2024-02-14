@@ -51,7 +51,7 @@ public class Security{
             .formLogin(login ->
                 login
                     .loginPage("/controller/login") // Establece la página de inicio de sesión personalizada.
-                    .defaultSuccessUrl("/home", true) // Establece la URL de redirección después de un inicio de sesión exitoso.
+                    .defaultSuccessUrl("/inicio/home", true) // Establece la URL de redirección después de un inicio de sesión exitoso.
                     .loginProcessingUrl("/controller/login-post") // Establece la URL de procesamiento del formulario de inicio de sesión.
             )
             // Configura el proceso de cierre de sesión.

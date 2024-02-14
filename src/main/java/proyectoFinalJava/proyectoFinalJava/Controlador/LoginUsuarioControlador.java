@@ -1,20 +1,68 @@
 package proyectoFinalJava.proyectoFinalJava.Controlador;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import proyectoFinalJava.proyectoFinalJava.DTO.UsuarioDTO;
+import proyectoFinalJava.proyectoFinalJava.Modelos.Usuario;
+import proyectoFinalJava.proyectoFinalJava.Repositorio.UsuarioRepositorio;
 import proyectoFinalJava.proyectoFinalJava.Servicios.UsuarioServicio;
 
 @Controller
 public class LoginUsuarioControlador {
 	@Autowired
 	private UsuarioServicio usuarioServicio;
+	@Autowired
+    private AuthenticationManager authenticationManager;
+	@Autowired
+	UsuarioRepositorio usuarioRepositorio;
+	@Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
+	@PostMapping("/controller/login-post")
+    public String loginPost(@RequestParam("username") String username, @RequestParam("password") String password,Model model) {
+		Usuario usuario = usuarioRepositorio.findFirstByEmailUsuario(username);
+        // Autenticar al usuario utilizando el AuthenticationManager
+        Authentication authentication = authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(username, password));
+        
+        // Establecer la autenticación en el contexto de seguridad
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        UsuarioDTO usuarioDTO = usuarioServicio.convertirUsuarioADTO(usuario);
+        model.addAttribute("usuarioDTO", usuarioDTO);
+        // Redireccionar a la página de inicio después de un inicio de sesión exitoso
+        
+        return "redirect:/inicio/home";
+    }
+	@GetMapping("/controller/logout")
+    public String logout() {
+        SecurityContextHolder.getContext().setAuthentication(null);
+        return "redirect:/controller/login"; // Redirigir a la página de inicio de sesión
+    }
+	@GetMapping("/inicio/home")
+	public String home(Model model, Authentication authentication) {
+		String username = authentication.getName();
+		Usuario usuario = usuarioRepositorio.findFirstByEmailUsuario(username);
+		UsuarioDTO usuarioDTO = usuarioServicio.convertirUsuarioADTO(usuario);
+		model.addAttribute("usuarioDTO", usuarioDTO);
+		return "home";
+	}
 	@GetMapping("/controller/login")
 	public String login(Model model) {
 		// Se agrega un nuevo objeto UsuarioDTO al modelo para el formulario de login
