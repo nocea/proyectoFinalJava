@@ -19,10 +19,11 @@ public class UsuarioServicioImpl implements UsuarioServicio {
     private UsuarioRepositorio usuarioRepositorio;
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
-	private Usuario usuarioDTOaUsuario(UsuarioDTO usuarioDTO) {
+	@Override
+	public Usuario usuarioDTOaUsuario(UsuarioDTO usuarioDTO) {
 		Usuario usuarioDAO=new Usuario(usuarioDTO.getNombreCompleto_usuario(),
 				usuarioDTO.getEmail_usuario(), usuarioDTO.getAlias_usuario(), usuarioDTO.getMovil_usuario(),
-				usuarioDTO.getPasswd_usuario(), "USUARIO",false);
+				usuarioDTO.getPasswd_usuario(), "ROLE_USUARIO",false);
 		return usuarioDAO;
 	}
 	@Override
@@ -41,6 +42,7 @@ public class UsuarioServicioImpl implements UsuarioServicio {
 	@Override
 	public UsuarioDTO convertirUsuarioADTO(Usuario usuario) {
 	    UsuarioDTO usuarioDTO = new UsuarioDTO();
+	    usuarioDTO.setId_usuario(usuario.getId_usuario());
 	    usuarioDTO.setNombreCompleto_usuario(usuario.getNombreCompletoUsuario());
 	    usuarioDTO.setEmail_usuario(usuario.getEmailUsuario());
 	    usuarioDTO.setAlias_usuario(usuario.getAlias_usuario());
@@ -59,7 +61,7 @@ public class UsuarioServicioImpl implements UsuarioServicio {
 			admin.setPasswd_usuario(passwordEncoder.encode("Admin1234"));
 			admin.setAlias_usuario(null);
 			admin.setEmailUsuario("admin@admin");
-			admin.setRol_usuario("ADMIN");
+			admin.setRol_usuario("ROLE_ADMIN");
 			admin.setRegistrado(true);
 			usuarioRepositorio.save(admin);
 		}

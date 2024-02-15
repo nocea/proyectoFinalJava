@@ -1,9 +1,12 @@
 package proyectoFinalJava.proyectoFinalJava.Controlador;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -36,19 +39,19 @@ public class LoginUsuarioControlador {
     private BCryptPasswordEncoder passwordEncoder;
 
 	@PostMapping("/controller/login-post")
-    public String loginPost(@RequestParam("username") String username, @RequestParam("password") String password,Model model) {
+    public void loginPost(@RequestParam("username") String username, @RequestParam("password") String password,Model model) {
 		Usuario usuario = usuarioRepositorio.findFirstByEmailUsuario(username);
         // Autenticar al usuario utilizando el AuthenticationManager
         Authentication authentication = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(username, password));
-        
         // Establecer la autenticación en el contexto de seguridad
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UsuarioDTO usuarioDTO = usuarioServicio.convertirUsuarioADTO(usuario);
         model.addAttribute("usuarioDTO", usuarioDTO);
-        // Redireccionar a la página de inicio después de un inicio de sesión exitoso
-        
-        return "redirect:/inicio/home";
+    }
+	@GetMapping("/index")
+    public String index(Model model, Authentication authentication) {
+        return "index"; 
     }
 	@GetMapping("/controller/logout")
     public String logout() {
@@ -57,10 +60,7 @@ public class LoginUsuarioControlador {
     }
 	@GetMapping("/inicio/home")
 	public String home(Model model, Authentication authentication) {
-		String username = authentication.getName();
-		Usuario usuario = usuarioRepositorio.findFirstByEmailUsuario(username);
-		UsuarioDTO usuarioDTO = usuarioServicio.convertirUsuarioADTO(usuario);
-		model.addAttribute("usuarioDTO", usuarioDTO);
+		System.out.println("entra a home");
 		return "home";
 	}
 	@GetMapping("/controller/login")

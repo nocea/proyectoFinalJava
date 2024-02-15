@@ -14,7 +14,7 @@ import proyectoFinalJava.proyectoFinalJava.Servicios.UsuarioServicio;
 
 
 @Controller
-public class usuarioNormalControlador {
+public class UsuarioNormalControlador {
 	@Autowired
 	private UsuarioServicio usuarioServicio;
 	@Autowired

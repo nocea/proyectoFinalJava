@@ -7,7 +7,7 @@ public class UsuarioDTO {
 	private String alias_usuario;
 	private String movil_usuario;
 	private String passwd_usuario;
-	private String rol_usuario;
+	private String rol;
 	public Long getId_usuario() {
 		return id_usuario;
 	}
@@ -27,7 +27,7 @@ public class UsuarioDTO {
 		return passwd_usuario;
 	}
 	public String getRol_usuario() {
-		return rol_usuario;
+		return rol;
 	}
 	public void setId_usuario(Long id_usuario) {
 		this.id_usuario = id_usuario;
@@ -48,17 +48,18 @@ public class UsuarioDTO {
 		this.passwd_usuario = passwd_usuario;
 	}
 	public void setRol_usuario(String rol_usuario) {
-		this.rol_usuario = rol_usuario;
+		this.rol = rol_usuario;
 	}
-	public UsuarioDTO(String nombreCompleto_usuario, String email_usuario, String alias_usuario,
+	public UsuarioDTO(Long id_usuario,String nombreCompleto_usuario, String email_usuario, String alias_usuario,
 			String movil_usuario, String passwd_usuario, String rol_usuario) {
 		super();
+		this.id_usuario=id_usuario;
 		this.nombreCompleto_usuario = nombreCompleto_usuario;
 		this.email_usuario = email_usuario;
 		this.alias_usuario = alias_usuario;
 		this.movil_usuario = movil_usuario;
 		this.passwd_usuario = passwd_usuario;
-		this.rol_usuario = rol_usuario;
+		this.rol = rol_usuario;
 	}
 	public UsuarioDTO() {
 		super();

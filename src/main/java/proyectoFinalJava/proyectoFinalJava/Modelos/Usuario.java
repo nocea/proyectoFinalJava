@@ -20,7 +20,8 @@ public class Usuario {
 	private String alias_usuario;
 	private String movil_usuario;
 	private String passwd_usuario;
-	private String rol_usuario;
+	@Column(name = "rol_usuario", nullable = true, length = 20)
+	private String rol;
 	private Boolean registrado;
 	
 	public String getNombreCompletoUsuario() {
@@ -57,7 +58,7 @@ public class Usuario {
 		this.emailUsuario = emailUsuario;
 	}
 	public String getRol_usuario() {
-		return rol_usuario;
+		return rol;
 	}
 	public void setId_usuario(Long id_usuario) {
 		this.id_usuario = id_usuario;
@@ -73,7 +74,7 @@ public class Usuario {
 		this.passwd_usuario = passwd_usuario;
 	}
 	public void setRol_usuario(String rol_usuario) {
-		this.rol_usuario = rol_usuario;
+		this.rol = rol_usuario;
 	}
 	public Usuario(String nombreCompletoUsuario, String emailUsuario, String alias_usuario,
 			String movil_usuario, String passwd_usuario, String rol_usuario,Boolean registrado) {
@@ -83,7 +84,7 @@ public class Usuario {
 		this.alias_usuario = alias_usuario;
 		this.movil_usuario = movil_usuario;
 		this.passwd_usuario = passwd_usuario;
-		this.rol_usuario = rol_usuario;
+		this.rol = rol_usuario;
 		this.registrado=registrado;
 	}
 	public Usuario() {

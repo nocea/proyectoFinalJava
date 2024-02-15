@@ -7,4 +7,6 @@ public interface UsuarioServicio {
 public Boolean registrar(UsuarioDTO usuarioDTO);
 
 public UsuarioDTO convertirUsuarioADTO(Usuario usuario);
+
+public Usuario usuarioDTOaUsuario(UsuarioDTO usuarioDTO);
 }

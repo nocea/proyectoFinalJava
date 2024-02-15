@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
@@ -15,6 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
+
 public class Security{
 	
 	@Autowired
@@ -45,13 +47,16 @@ public class Security{
                 auth
                 	// Permite el acceso público a ciertos recursos y direcciones de URL que no requieren autenticación.
                     .requestMatchers("/", "/webjars/**", "/css/**", "/script/**", "/controller/**").permitAll()
+                    .requestMatchers("/admin/**").hasRole("ADMIN")
+                    .requestMatchers("/inicio/**").hasRole("USUARIO")
+                    .requestMatchers("/index/**").hasAnyRole("ADMIN","USUARIO")
                     .anyRequest().authenticated()// Exige autenticación para cualquier otra solicitud.
             )
             // Configura el proceso de inicio de sesión y la página de inicio de sesión.
             .formLogin(login ->
                 login
                     .loginPage("/controller/login") // Establece la página de inicio de sesión personalizada.
-                    .defaultSuccessUrl("/inicio/home", true) // Establece la URL de redirección después de un inicio de sesión exitoso.
+                    .defaultSuccessUrl("/index", true) // Establece la URL de redirección después de un inicio de sesión exitoso.
                     .loginProcessingUrl("/controller/login-post") // Establece la URL de procesamiento del formulario de inicio de sesión.
             )
             // Configura el proceso de cierre de sesión.
