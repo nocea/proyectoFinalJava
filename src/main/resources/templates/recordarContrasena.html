@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>BlogShip</title>
-<!-- Agregar Bootstrap CSS -->
-    <link href="/webjars/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<link href="/webjars/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <!-- Agregar Bootstrap Icons CSS -->
     <link href="/webjars/bootstrap-icons/1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="../static/css/styles.css" th:href="@{/css/styles.css}">
@@ -28,26 +27,19 @@
         </div>
     </nav>
     </header>
-    <div id="inicio"></div>
+     <div id="inicio"></div>
     <div class="container contenido1" style="margin-top: 70px;">
         <main role="main" class="pb-3">
-            <div class="form-container">
-        <form th:action="@{/controller/login-post}" method="post">
-            <h2 class="text-center mb-4">Iniciar Sesión en BlogShip <i class="bi bi-rocket-takeoff"></i></h2>
+		<div class="form-container">
+        <form th:action="@{/controller/mandarEmail}" method="post">
+            <h2 class="text-center mb-4">Recuperar Contraseña <i class="bi bi-shield-lock"></i></h2>
             <div class="form-group">
-                <label for="emailUsuario"><i class="bi bi-person"></i>Email</label>
-                <input id="login-username" type="email" class="form-control ps-3" name="username" required>
+                 <label for="emailUsuario"><i class="bi bi-person"></i>Email</label>
+                <input id="recordar-username" type="email" class="form-control ps-3" name="username" required>
             </div>
-            <div class="form-group">
-                <label for="passwd_usuario"><i class="bi bi-asterisk"></i>Contraseña</label>             
-                    <input id="login-password" type="password" class="form-control ps-3" name="password" required>
-            </div>
-            <button type="submit" class="btn btn-dark btn-block">Iniciar Sesión</button>
-            <a th:href="@{/controller/recordarContrasena}"class="btn btn-link">¿Olvidaste tu contraseña?</a>
-            <a th:href="@{/controller/registrar}"class="btn btn-link">¿No se ha registrado?</a>
+            <button type="submit" class="btn btn-dark btn-block">Enviar Correo de Recuperación</button>
         </form>
-        </div>
-        </main>
+			</main>
     </div>
     <footer class="bg-light text-dark text-center py-3 mt-auto footer">
         <div class="container">
@@ -58,8 +50,5 @@
             <p class="mb-0">Diseñado por <a href="https://github.com/nocea" target="_blank">Mario Nocea Cabrera</a></p>
         </div>
     </footer>
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="/webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

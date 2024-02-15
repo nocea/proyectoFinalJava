@@ -76,7 +76,6 @@ public class LoginUsuarioControlador {
 		model.addAttribute("usuario", new UsuarioDTO());
 		return "registro";
 	}
-
 	@PostMapping("/controller/registrar")
 	public String registrarPost(@ModelAttribute UsuarioDTO usuario, Model model) {
 		Boolean registrado;
@@ -98,5 +97,16 @@ public class LoginUsuarioControlador {
 	public String ERRORPAGE(Model model) {
 		model.addAttribute("usuario", new UsuarioDTO());
 		return "ERRORPAGE";
+	}
+	@GetMapping("/controller/recordarContrasena")
+	public String recordarContrasena() {
+		return "recordarContrasena";
+	}
+	@PostMapping("/controller/mandarEmail")
+	public String mandarEmail(@RequestParam("username") String username) {
+		System.out.println(username);
+		String cadena_token;
+		cadena_token=usuarioServicio.generarToken();
+		return "recordarContrasena";
 	}
 }

@@ -1,13 +1,24 @@
 package proyectoFinalJava.proyectoFinalJava.Servicios;
 
+import java.io.FileInputStream;
+import java.util.Calendar;
+import java.util.Properties;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import jakarta.mail.Session;
+import jakarta.mail.internet.MimeMessage;
 import proyectoFinalJava.proyectoFinalJava.DTO.UsuarioDTO;
+import proyectoFinalJava.proyectoFinalJava.Modelos.Token;
 import proyectoFinalJava.proyectoFinalJava.Modelos.Usuario;
+import proyectoFinalJava.proyectoFinalJava.Repositorio.TokenRepositorio;
 import proyectoFinalJava.proyectoFinalJava.Repositorio.UsuarioRepositorio;
 @Service
 public class UsuarioServicioImpl implements UsuarioServicio {
@@ -17,6 +28,8 @@ public class UsuarioServicioImpl implements UsuarioServicio {
 	}
 	@Autowired
     private UsuarioRepositorio usuarioRepositorio;
+	@Autowired
+    private TokenRepositorio tokenRepositorio;
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 	@Override
@@ -66,5 +79,29 @@ public class UsuarioServicioImpl implements UsuarioServicio {
 			usuarioRepositorio.save(admin);
 		}
 	}
+	@Override
+	public String generarToken() {
+		UUID uuid = UUID.randomUUID();
+        String cadena_token = uuid.toString();
+        Calendar fechafinToken = Calendar.getInstance();
+        fechafinToken.setTimeInMillis(System.currentTimeMillis());
+        fechafinToken.add(Calendar.HOUR_OF_DAY, 24);
+        System.out.println(fechafinToken);
+        Token tokenNuevo=new Token(cadena_token,fechafinToken);
+        tokenRepositorio.save(tokenNuevo);
+		return cadena_token;
+	}
+	@Autowired
+	private JavaMailSender javaMailSender;
+	@Override
+	public void EnviarEmailRecuperar(String email, String token) {
+		try {
+		MimeMessage mensaje = javaMailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(mensaje, true, "UTF-8");
+		}catch(Exception ex) {
+			System.out.println("fallo mail");
+		}
+	}
+	
 
 }
