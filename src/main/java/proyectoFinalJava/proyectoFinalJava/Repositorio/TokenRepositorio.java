@@ -7,5 +7,5 @@ import proyectoFinalJava.proyectoFinalJava.Modelos.Token;
 
 @Repository
 public interface TokenRepositorio extends JpaRepository<Token, Long> {
-
+	Token findByCadenaToken(String cadenaToken);
 }

@@ -1,8 +1,9 @@
 package proyectoFinalJava.proyectoFinalJava.Servicios;
 
-import java.io.FileInputStream;
+
+
 import java.util.Calendar;
-import java.util.Properties;
+
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,6 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import jakarta.mail.Session;
 import jakarta.mail.internet.MimeMessage;
 import proyectoFinalJava.proyectoFinalJava.DTO.UsuarioDTO;
 import proyectoFinalJava.proyectoFinalJava.Modelos.Token;
@@ -48,7 +48,26 @@ public class UsuarioServicioImpl implements UsuarioServicio {
 		}else {
 			usuarioDAO.setPasswd_usuario(passwordEncoder.encode(usuarioDTO.getPasswd_usuario()));
 		usuarioDAO = usuarioRepositorio.save(usuarioDAO);
+		EnviarEmailRegistro(usuarioDAO.getEmailUsuario());
 		return true;
+		}
+		
+	}
+	@Override
+	public void EnviarEmailRegistro(String email) {
+		String urlRecuperar="http://localhost:8080/controller/confirmarRegistro/"+email;
+		try {
+		 MimeMessage mensaje = javaMailSender.createMimeMessage();
+         MimeMessageHelper helper = new MimeMessageHelper(mensaje, true, "UTF-8");
+
+         helper.setFrom("blogship@mnocea.eu");
+         helper.setTo(email);
+         helper.setSubject("Confirmar Registro BlogShip");
+         
+         helper.setText(urlRecuperar, true);
+         javaMailSender.send(mensaje);
+		}catch(Exception ex) {
+			System.out.println("error al mandar email");
 		}
 		
 	}
@@ -92,16 +111,26 @@ public class UsuarioServicioImpl implements UsuarioServicio {
 		return cadena_token;
 	}
 	@Autowired
-	private JavaMailSender javaMailSender;
+	private JavaMailSender javaMailSender;	
 	@Override
 	public void EnviarEmailRecuperar(String email, String token) {
+		String urlRecuperar="http://localhost:8080/controller/cambiarContrasena/"+email+"/"+token;
 		try {
-		MimeMessage mensaje = javaMailSender.createMimeMessage();
-		MimeMessageHelper helper = new MimeMessageHelper(mensaje, true, "UTF-8");
+		 MimeMessage mensaje = javaMailSender.createMimeMessage();
+         MimeMessageHelper helper = new MimeMessageHelper(mensaje, true, "UTF-8");
+
+         helper.setFrom("blogship@mnocea.eu");
+         helper.setTo(email);
+         helper.setSubject("Recuperar Contraseña BlogShip");
+         
+         helper.setText(urlRecuperar, true);
+         javaMailSender.send(mensaje);
 		}catch(Exception ex) {
-			System.out.println("fallo mail");
+			System.out.println("error al mandar email");
 		}
+		
 	}
+	
 	
 
 }

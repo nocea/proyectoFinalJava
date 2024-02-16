@@ -18,13 +18,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		System.out.printf("\nIntento de inicio de sesión para el usuario: %s\n", username);
-
-		
 		Usuario user = usuarioRepository.findFirstByEmailUsuario(username);
-
-		
 		UserBuilder builder = null;
-		if (user != null) {
+		//Para comprobar que ha pinchado en el enlace de registro y se ha cammbiado el registro a true
+		System.out.println(user.getRegistrado());
+		if (user != null&& user.getRegistrado()) {
 			System.out.printf("\nUsuario encontrado en la base de datos: %s\n", user.getEmailUsuario());
 
 			builder = User.withUsername(username);

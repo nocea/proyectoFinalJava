@@ -1,5 +1,6 @@
 package proyectoFinalJava.proyectoFinalJava.Controlador;
 
+import java.util.Calendar;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,7 +25,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import proyectoFinalJava.proyectoFinalJava.DTO.UsuarioDTO;
+import proyectoFinalJava.proyectoFinalJava.Modelos.Token;
 import proyectoFinalJava.proyectoFinalJava.Modelos.Usuario;
+import proyectoFinalJava.proyectoFinalJava.Repositorio.TokenRepositorio;
 import proyectoFinalJava.proyectoFinalJava.Repositorio.UsuarioRepositorio;
 import proyectoFinalJava.proyectoFinalJava.Servicios.UsuarioServicio;
 
@@ -35,6 +39,8 @@ public class LoginUsuarioControlador {
     private AuthenticationManager authenticationManager;
 	@Autowired
 	UsuarioRepositorio usuarioRepositorio;
+	@Autowired
+	TokenRepositorio tokenRepositorio;
 	@Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
@@ -57,11 +63,6 @@ public class LoginUsuarioControlador {
     public String logout() {
         SecurityContextHolder.getContext().setAuthentication(null);
         return "redirect:/controller/login"; // Redirigir a la página de inicio de sesión
-    }
-	@GetMapping("/inicio/home")
-	public String home(Model model, Authentication authentication) {
-		System.out.println("entra a home");
-		return "home";
 	}
 	@GetMapping("/controller/login")
 	public String login(Model model) {
@@ -93,6 +94,13 @@ public class LoginUsuarioControlador {
 		model.addAttribute("usuario", new UsuarioDTO());
 		return "registroExitoso";
 	}
+	@GetMapping("controller/confirmarRegistro/{email}")
+	public String confirmarRegistro(@PathVariable String email) {
+		Usuario usuario = usuarioRepositorio.findFirstByEmailUsuario(email);
+		usuario.setRegistrado(true);
+		usuarioRepositorio.save(usuario);
+		return "registroConfirmado";
+	}
 	@GetMapping("/controller/ERRORPAGE")
 	public String ERRORPAGE(Model model) {
 		model.addAttribute("usuario", new UsuarioDTO());
@@ -104,9 +112,36 @@ public class LoginUsuarioControlador {
 	}
 	@PostMapping("/controller/mandarEmail")
 	public String mandarEmail(@RequestParam("username") String username) {
-		System.out.println(username);
-		String cadena_token;
+		System.out.println("Email al que mandar:"+username);
+		String cadena_token;		
 		cadena_token=usuarioServicio.generarToken();
+		System.out.println("Email al que mandar:"+cadena_token);
+		usuarioServicio.EnviarEmailRecuperar(username,cadena_token);
 		return "recordarContrasena";
+	}
+	@GetMapping("/controller/cambiarContrasena/{email}/{token}")
+	public String recuperarExitoso(@PathVariable String email,@PathVariable String token,Model model) {
+		System.out.println("cambiar contraseña");
+		System.out.println(email);
+		System.out.println(token);
+		model.addAttribute("email", email);
+		model.addAttribute("token", token);
+		return "cambiarContrasena";
+	}
+	
+	@PostMapping("/controller/confirmarCambioContrasena")
+	public String confirmarCambioContrasena(@RequestParam ("email")String email,@RequestParam ("token")
+	String token,@RequestParam ("contrasenaNueva")String contrasenaNueva) {
+		Usuario usuario = usuarioRepositorio.findFirstByEmailUsuario(email);
+		Token tokenValido=tokenRepositorio.findByCadenaToken(token);
+		Calendar calendar = Calendar.getInstance();
+		if(usuario != null && tokenValido != null && tokenValido.getFechafinToken().after(calendar)) {
+			usuario.setPasswd_usuario(passwordEncoder.encode(contrasenaNueva));
+			usuarioRepositorio.save(usuario);
+			return "cambiarContrasena";
+		}
+		else {
+		return "ERRORPAGE";
+		}
 	}
 }
