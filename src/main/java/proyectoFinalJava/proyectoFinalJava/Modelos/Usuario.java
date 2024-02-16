@@ -1,10 +1,14 @@
 package proyectoFinalJava.proyectoFinalJava.Modelos;
 
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -23,7 +27,20 @@ public class Usuario {
 	@Column(name = "rol_usuario", nullable = true, length = 20)
 	private String rol;
 	private Boolean registrado;
-	
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<Post> posts;
+	public String getRol() {
+		return rol;
+	}
+	public List<Post> getPosts() {
+		return posts;
+	}
+	public void setRol(String rol) {
+		this.rol = rol;
+	}
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
+	}
 	public String getNombreCompletoUsuario() {
 		return nombreCompletoUsuario;
 	}

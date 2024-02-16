@@ -46,7 +46,7 @@ public class Security{
             .authorizeHttpRequests(auth -> 
                 auth
                 	// Permite el acceso público a ciertos recursos y direcciones de URL que no requieren autenticación.
-                    .requestMatchers("/", "/webjars/**", "/css/**", "/script/**", "/controller/**").permitAll()
+                    .requestMatchers("/webjars/**", "/css/**", "/script/**", "/controller/**").permitAll()
                     .requestMatchers("/admin/**").hasRole("ADMIN")
                     .requestMatchers("/inicio/**").hasRole("USUARIO")
                     .requestMatchers("/index/**").hasAnyRole("ADMIN","USUARIO")
