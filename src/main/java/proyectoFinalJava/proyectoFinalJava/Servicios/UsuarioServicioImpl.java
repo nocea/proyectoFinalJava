@@ -2,6 +2,10 @@ package proyectoFinalJava.proyectoFinalJava.Servicios;
 
 
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Calendar;
 
 import java.util.UUID;
@@ -34,11 +38,25 @@ public class UsuarioServicioImpl implements UsuarioServicio {
 	private BCryptPasswordEncoder passwordEncoder;
 	@Override
 	public Usuario usuarioDTOaUsuario(UsuarioDTO usuarioDTO) {
+		String imagePath = "src/main/resources/static/fotoInicial.png";
+		byte[] imagen_usuario = convertImageToByteArray(imagePath);
 		Usuario usuarioDAO=new Usuario(usuarioDTO.getNombreCompleto_usuario(),
 				usuarioDTO.getEmail_usuario(), usuarioDTO.getAlias_usuario(), usuarioDTO.getMovil_usuario(),
-				usuarioDTO.getPasswd_usuario(), "ROLE_USUARIO",false);
+				usuarioDTO.getPasswd_usuario(), "ROLE_USUARIO",false,imagen_usuario);
 		return usuarioDAO;
 	}
+	private static byte[] convertImageToByteArray(String imagePath) {
+        byte[] imageData = null;
+        try (FileInputStream fis = new FileInputStream(new File(imagePath))) {
+            imageData = new byte[fis.available()];
+            fis.read(imageData);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return imageData;
+    }
 	@Override
 	public Boolean registrar(UsuarioDTO usuarioDTO) {
 		Usuario usuarioDAO=usuarioDTOaUsuario(usuarioDTO);
@@ -82,6 +100,7 @@ public class UsuarioServicioImpl implements UsuarioServicio {
 	    usuarioDTO.setRol_usuario(usuario.getRol_usuario());
 	    usuarioDTO.setPasswd_usuario(usuario.getPasswd_usuario());
 	    usuarioDTO.setRol_usuario(usuario.getRol_usuario());
+	    usuarioDTO.setImagen_usuario(usuario.getImagen_usuario());
 	    // Asignar otros campos según sea necesario
 	    
 	    return usuarioDTO;

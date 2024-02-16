@@ -8,6 +8,13 @@ public class UsuarioDTO {
 	private String movil_usuario;
 	private String passwd_usuario;
 	private String rol;
+	private byte[] imagen_usuario;
+	public byte[] getImagen_usuario() {
+		return imagen_usuario;
+	}
+	public void setImagen_usuario(byte[] imagen_usuario) {
+		this.imagen_usuario = imagen_usuario;
+	}
 	public Long getId_usuario() {
 		return id_usuario;
 	}

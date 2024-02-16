@@ -40,16 +40,8 @@
         <main role="main" class="pb-3">
         <div class="container confirmation-container">
         <div class="jumbotron">
-            <!-- Mostrar la imagen y el alias del usuario -->
             <div class="user-info">
-<!--                 @if (Model.imagen_usuario != null && Model.imagen_usuario.Length > 0) -->
-<!--                 { -->
-<!--                     <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.imagen_usuario)" alt="Imagen de perfil" /> -->
-<!--                 } -->
-<!--                 else -->
-<!--                 { -->
-<!--                     <p>No se encontró ninguna imagen para mostrar.</p> -->
-<!--                 } -->
+			<img th:src="'data:image/jpeg;base64,' + ${#strings.bytesAsHexString(usuarioDTO.imagen_usuario)}" alt="Imagen de usuario"/>
                 <h1 class="display-4">@<span th:text="${usuarioDTO.alias_usuario}"></span></h1>
             </div>
             <hr class="my-4">

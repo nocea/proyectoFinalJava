@@ -31,6 +31,10 @@ public class UsuarioNormalControlador {
 		Usuario usuario = usuarioRepositorio.findFirstByEmailUsuario(username);
 		UsuarioDTO usuarioDTO = usuarioServicio.convertirUsuarioADTO(usuario);
 		model.addAttribute("usuarioDTO", usuarioDTO);
+		byte[] imagen_usuario=usuarioDTO.getImagen_usuario();
+		for (int i = 0; i < imagen_usuario.length; i++) {
+			System.out.println(imagen_usuario[i]);
+		}
 		return "miCuenta";
 	}
 	@GetMapping("/inicio/paraTi")

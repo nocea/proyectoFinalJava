@@ -27,6 +27,13 @@ public class Usuario {
 	@Column(name = "rol_usuario", nullable = true, length = 20)
 	private String rol;
 	private Boolean registrado;
+	private byte[] imagen_usuario;
+	public byte[] getImagen_usuario() {
+		return imagen_usuario;
+	}
+	public void setImagen_usuario(byte[] imagen_usuario) {
+		this.imagen_usuario = imagen_usuario;
+	}
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private List<Post> posts;
 	public String getRol() {
@@ -94,8 +101,9 @@ public class Usuario {
 		this.rol = rol_usuario;
 	}
 	public Usuario(String nombreCompletoUsuario, String emailUsuario, String alias_usuario,
-			String movil_usuario, String passwd_usuario, String rol_usuario,Boolean registrado) {
+			String movil_usuario, String passwd_usuario, String rol_usuario,Boolean registrado,byte[] imagen_usuario) {
 		super();
+		this.imagen_usuario = imagen_usuario;
 		this.nombreCompletoUsuario = nombreCompletoUsuario;
 		this.emailUsuario = emailUsuario;
 		this.alias_usuario = alias_usuario;
