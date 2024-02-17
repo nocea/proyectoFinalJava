@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="UTF-8">
 <title>BlogShip</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="../static/css/styles.css" th:href="@{/css/styles.css}">
@@ -37,19 +37,28 @@
     </header>
     <div id="inicio"></div>
     <div class="container contenido1" style="margin-top: 70px;">
-        <main role="main" class="pb-3">
-			</main>
-			para ti
+        <main role="main" class="pb-3">   
+    <div class="fixed-bottom fixed-left p-3">
+        <a class="btn btn-primary btn-lg" th:href="@{/inicio/crearPost}" role="button">Crear Post</a>
     </div>
-    <footer class="bg-light text-dark text-center py-3 mt-auto footer">
-        <div class="container">
-            <!--Le asigno una id al enlace para indicar a que parte ir
-            (este vuelve justo abajo del header al inicio de todo)-->
-            <p><a href="#inicio"><i class="bi bi-arrow-up-circle-fill"></i></a></p>
-            <p class="mb-0">© 2024 BlogShip</p>
-            <p class="mb-0">Diseñado por <a href="https://github.com/nocea" target="_blank">Mario Nocea Cabrera</a></p>
+    <div th:each="post : ${posts}" class="row justify-content-center">
+    <!-- Mostrar cada post como una columna estrecha centrada -->
+    <div class="col-md-6">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h4>AUTOR</h4>
+                <h5 class="card-title" th:text="${post.usuario_alias_post}"></h5>
+                <h4>TITULO POST</h4>
+                <h5 class="card-title" th:text="${post.titulo_post}"></h5>
+                <!-- Mostrar la imagen del post con la clase 'post-image' -->
+                <img class="card-img-top post-image mx-auto d-block" th:src="'data:image/jpeg;base64,' + ${post.string_imagen_post}" alt="Imagen Post">
+                <p class="card-text" th:text="${post.pieDeFoto_post}"></p>
+            </div>
         </div>
-    </footer>
+    </div>
+</div>
+</main>
+    </div>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>

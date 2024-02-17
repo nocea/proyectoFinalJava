@@ -15,73 +15,73 @@ import jakarta.persistence.Table;
 public class Post {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id_post;
 
     @Column(nullable = false)
-    private String contenido;
+    private String titulo_post;
 
     @Column(nullable = false)
-    private byte[] imagenUrl; 
+    private byte[] imagen_post; 
 
     @Column(nullable = true)
-    private String pieDeFoto;
+    private String pieDeFoto_post;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
-	public Post(Long id, String contenido, byte[] imagenUrl, String pieDeFoto, Usuario usuario) {
+	public Post(Long id, String titulo_post, byte[] imagen_post, String pieDeFoto_post, Usuario usuario) {
 		super();
-		this.id = id;
-		this.contenido = contenido;
-		this.imagenUrl = imagenUrl;
-		this.pieDeFoto = pieDeFoto;
+		this.id_post = id;
+		this.titulo_post = titulo_post;
+		this.imagen_post = imagen_post;
+		this.pieDeFoto_post = pieDeFoto_post;
 		this.usuario = usuario;
 	}
-
 	public Post() {
 		super();
 	}
 
-	public Long getId() {
-		return id;
+	public Long getId_post() {
+		return id_post;
 	}
 
-	public String getContenido() {
-		return contenido;
+	public void setId_post(Long id_post) {
+		this.id_post = id_post;
 	}
 
-	public byte[] getImagenUrl() {
-		return imagenUrl;
+	public String getTitulo_post() {
+		return titulo_post;
 	}
 
-	public String getPieDeFoto() {
-		return pieDeFoto;
+	public void setTitulo_post(String titulo_post) {
+		this.titulo_post = titulo_post;
+	}
+
+	public byte[] getImagen_post() {
+		return imagen_post;
+	}
+
+	public void setImagen_post(byte[] imagen_post) {
+		this.imagen_post = imagen_post;
+	}
+
+	public String getPieDeFoto_post() {
+		return pieDeFoto_post;
+	}
+
+	public void setPieDeFoto_post(String pieDeFoto_post) {
+		this.pieDeFoto_post = pieDeFoto_post;
 	}
 
 	public Usuario getUsuario() {
 		return usuario;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public void setContenido(String contenido) {
-		this.contenido = contenido;
-	}
-
-	public void setImagenUrl(byte[] imagenUrl) {
-		this.imagenUrl = imagenUrl;
-	}
-
-	public void setPieDeFoto(String pieDeFoto) {
-		this.pieDeFoto = pieDeFoto;
-	}
-
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
+	
 
    
 }

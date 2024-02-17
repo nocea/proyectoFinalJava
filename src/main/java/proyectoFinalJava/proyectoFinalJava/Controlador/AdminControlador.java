@@ -1,7 +1,9 @@
 package proyectoFinalJava.proyectoFinalJava.Controlador;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -12,10 +14,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import proyectoFinalJava.proyectoFinalJava.Modelos.Post;
 import proyectoFinalJava.proyectoFinalJava.Modelos.Usuario;
+import proyectoFinalJava.proyectoFinalJava.DTO.PostDTO;
 import proyectoFinalJava.proyectoFinalJava.DTO.UsuarioDTO;
+import proyectoFinalJava.proyectoFinalJava.Repositorio.PostRepositorio;
 import proyectoFinalJava.proyectoFinalJava.Repositorio.UsuarioRepositorio;
+import proyectoFinalJava.proyectoFinalJava.Servicios.PostServicio;
 import proyectoFinalJava.proyectoFinalJava.Servicios.UsuarioServicio;
 
 @Controller
@@ -25,7 +33,10 @@ public class AdminControlador {
 	UsuarioRepositorio usuarioRepositorio;
 	@Autowired
 	UsuarioServicio usuarioServicio;
-
+	@Autowired
+	PostRepositorio postRepositorio;
+	@Autowired
+	PostServicio postServicio;
 	@GetMapping("/admin")
 	public String admin(Model model, Authentication authentication) {
 		return "admin";
@@ -42,7 +53,32 @@ public class AdminControlador {
 		model.addAttribute("usuarios", listaUsuariosDTO);
 		return "usuarios";
 	}
-
+	@GetMapping("/admin/posts")
+	public String posts(Model model, Authentication authentication) {
+		List<Post> posts = postRepositorio.findAll();
+		List<PostDTO> listaPostDTO = posts.stream()
+                .map(postServicio::convertirPostADTO)
+                .collect(Collectors.toList());
+		for (PostDTO postDTO : listaPostDTO) {
+            byte[] imagen_post = postDTO.getImagen_post();
+            String imagenBase64 = Base64.getEncoder().encodeToString(imagen_post);
+            postDTO.setString_imagen_post(imagenBase64);
+            postDTO.setUsuario_alias_post(postDTO.getUsuario().getAlias_usuario());
+        }
+        model.addAttribute("posts", listaPostDTO);
+		return "posts";
+	}
+	@PostMapping("/admin/borrarPost")
+    @ResponseBody
+    public String borrarPost(@RequestParam("postId") Long postId) {
+        try {
+            postServicio.borrarPost(postId); // Suponiendo que tienes un método en tu servicio para borrar el post por su ID
+            return "Post borrado correctamente";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error al intentar borrar el post";
+        }
+    }
 	@GetMapping("/admin/editar/{id}")
 	public String mostrarFormularioEdicion(@PathVariable Long id, Model model) {
 		Usuario usuarioDAO = usuarioRepositorio.findById(id).orElse(null);

@@ -1,4 +1,14 @@
-﻿.footer {
+﻿
+.post-image {
+    max-width: 100%; /* Establece un ancho máximo del 100% del contenedor */
+    height: auto; /* Permite que la altura se ajuste automáticamente para mantener la proporción de la imagen */
+}
+.user-avatar {
+    float: left;
+    margin-right: 20px; /* Espacio entre la imagen y los detalles del usuario */
+    border-radius: 50%; /* Para hacer la imagen redonda, si lo deseas */
+}
+.footer {
     position: fixed;
     left: 0;
     bottom: 0;
