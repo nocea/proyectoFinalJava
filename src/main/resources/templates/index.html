@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="UTF-8">
 <title>BlogShip</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="../static/css/styles.css" th:href="@{/css/styles.css}">
@@ -32,7 +32,7 @@
                     </ul>
                     <ul class="navbar-nav">
                         <li style="margin-left: 10px;"class="nav-item active">
-                        <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin}" class="nav-link">Administración</a>
+                        <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin}" class="nav-link">AdministraciÃ³n</a>
                     </li>
                     </ul>
                 </div>
@@ -44,7 +44,10 @@
     <div class="container contenido1" style="margin-top: 70px;">
         <main role="main" class="pb-3">
 			</main>
-			<h1>Bienvenido a BlogShip</h1>
+			<div class="container text-center">
+    <h1 class="display-4 mb-4">Bienvenido a BlogShip</h1>
+    <p class="lead">Aquí podrás compartir tus pensamientos y conectar con otros usuarios.</p>
+</div>
     </div>
     <footer class="bg-light text-dark text-center py-3 mt-auto footer">
         <div class="container">

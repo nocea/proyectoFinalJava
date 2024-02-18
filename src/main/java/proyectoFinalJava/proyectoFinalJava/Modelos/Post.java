@@ -1,5 +1,7 @@
 package proyectoFinalJava.proyectoFinalJava.Modelos;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -8,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -16,7 +19,6 @@ public class Post {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_post;
-
     @Column(nullable = false)
     private String titulo_post;
 
@@ -25,11 +27,12 @@ public class Post {
 
     @Column(nullable = true)
     private String pieDeFoto_post;
-
+    @OneToMany(mappedBy = "post")
+    private List<Comentario> comentarios;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
-
+    
 	public Post(Long id, String titulo_post, byte[] imagen_post, String pieDeFoto_post, Usuario usuario) {
 		super();
 		this.id_post = id;

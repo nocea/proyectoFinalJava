@@ -3,6 +3,7 @@ package proyectoFinalJava.proyectoFinalJava.Controlador;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,31 +12,34 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import proyectoFinalJava.proyectoFinalJava.DTO.PostDTO;
 import proyectoFinalJava.proyectoFinalJava.DTO.UsuarioDTO;
+import proyectoFinalJava.proyectoFinalJava.Modelos.Comentario;
 import proyectoFinalJava.proyectoFinalJava.Modelos.Post;
 import proyectoFinalJava.proyectoFinalJava.Modelos.Usuario;
+import proyectoFinalJava.proyectoFinalJava.Repositorio.ComentarioRepositorio;
 import proyectoFinalJava.proyectoFinalJava.Repositorio.PostRepositorio;
 import proyectoFinalJava.proyectoFinalJava.Repositorio.UsuarioRepositorio;
 import proyectoFinalJava.proyectoFinalJava.Servicios.PostServicio;
 import proyectoFinalJava.proyectoFinalJava.Servicios.UsuarioServicio;
-
-
-
 @Controller
 public class UsuarioNormalControlador {
+	//IMPLEMENTO SERVICIOS Y REPOSITORIOS PARA PODER USARLOS
 	@Autowired
-	private UsuarioServicio usuarioServicio;
+	UsuarioServicio usuarioServicio;
 	@Autowired
 	UsuarioRepositorio usuarioRepositorio;
 	@Autowired
 	PostRepositorio postRepositorio;
 	@Autowired
 	PostServicio postServicio;
+	@Autowired
+	ComentarioRepositorio comentarioRepositorio;
 	@GetMapping("/inicio/miCuenta")
 	public String miCuenta(Model model,Authentication authentication) {
 		String username = authentication.getName();
@@ -87,4 +91,26 @@ public class UsuarioNormalControlador {
         }
 		return "redirect:/inicio/paraTi";
     }
+	@GetMapping("/inicio/comentar/{id_post}")
+    public String mostrarFormularioComentario(@PathVariable("id_post") Long idPost, Model model) {
+        model.addAttribute("id_post", idPost);
+        List<Comentario> listaComentarios = comentarioRepositorio.findByPostId(idPost);
+        model.addAttribute("comentarios",listaComentarios);
+        
+        return "comentarPost";
+    }
+	@PostMapping("/inicio/guardarComentario")
+	public String guardarComentario(@RequestParam("id_post") Long postid,
+			@RequestParam("contenido") String textoComentario) {
+		Post post = postRepositorio.findById(postid).orElse(null);
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        Usuario usuarioComentario=usuarioRepositorio.findFirstByEmailUsuario(username);
+		Comentario nuevoComentario=new Comentario();
+		nuevoComentario.setContenido(textoComentario);
+		nuevoComentario.setUsuario(usuarioComentario);
+		nuevoComentario.setPost(post);
+		comentarioRepositorio.save(nuevoComentario);
+		return "index";
+	}
 }

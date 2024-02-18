@@ -37,28 +37,43 @@
     </header>
     <div id="inicio"></div>
     <div class="container contenido1" style="margin-top: 70px;">
-        <main role="main" class="pb-3">   
-    <div class="fixed-bottom fixed-left p-3">
-        <a class="btn btn-dark btn-lg" th:href="@{/inicio/crearPost}" role="button">Crear Post</a>
-    </div>
-    <div th:each="post : ${posts}" class="row justify-content-center">
-    <!-- Mostrar cada post como una columna estrecha centrada -->
-    <div class="col-md-6">
-    <div class="card mb-3 shadow rounded">
-        <div class="card-body">
-            <h4 class="card-title">@<span th:text="${post.usuario_alias_post}"></span></h4>
-            <h5 class="card-subtitle mb-2 text-muted"><span th:text="${post.titulo_post}"></span></h5>
-            <!-- Mostrar la imagen del post con la clase 'post-image' -->
-            <img class="card-img-top post-image mx-auto d-block img-fluid rounded" th:src="'data:image/jpeg;base64,' + ${post.string_imagen_post}" alt="Imagen Post">
-            <a class="btn btn-dark mt-2" th:href="@{'/inicio/comentar/' + ${post.id_post}}">
-                <i class="bi bi-chat"></i>
-            </a>
-            <p class="card-text mt-3" th:text="${post.pieDeFoto_post}"></p>
+    <main role="main" class="pb-3">   
+    <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h4>Comentar Post</h4>
+                        <!-- Formulario para hacer el comentario -->
+                        <form th:action="@{/inicio/guardarComentario}" method="post">
+                            <div class="form-group">
+                                <label for="contenido">Contenido del Comentario:</label>
+                                <textarea class="form-control" id="contenido" name="contenido" rows="4" required></textarea>
+                            </div>
+                            <input type="hidden" th:name="id_post" th:value="${id_post}">
+                            <button type="submit" class="btn btn-primary">Enviar Comentario</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center mt-4">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h4>Caja de comentarios</h4>
+                <div th:each="comentario : ${comentarios}" class="mb-3">
+                    <div class="border p-3">
+                        <!-- Mostrar el comentario -->
+                        <p class="mb-1" th:text="${comentario.contenido}"></p>
+                        <!-- Mostrar el nombre del usuario que hizo el comentario -->
+                        <small class="text-muted">Comentado por: <span th:text="${comentario.usuario.alias_usuario}"></span></small>
+                    </div>
+                </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-</div>
-</main>
+    </main>
     </div>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
