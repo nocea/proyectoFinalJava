@@ -50,9 +50,11 @@
             <h5 class="card-subtitle mb-2 text-muted"><span th:text="${post.titulo_post}"></span></h5>
             <!-- Mostrar la imagen del post con la clase 'post-image' -->
             <img class="card-img-top post-image mx-auto d-block img-fluid rounded" th:src="'data:image/jpeg;base64,' + ${post.string_imagen_post}" alt="Imagen Post">
-            <a class="btn btn-dark mt-2" th:href="@{'/inicio/comentar/' + ${post.id_post}}">
-                <i class="bi bi-chat"></i>
-            </a>
+            <div class="card-footer text-muted text-end">
+        <a class="btn btn-dark" th:href="@{'/inicio/comentar/' + ${post.id_post}}">
+            <i class="bi bi-chat"></i>
+        </a>
+    </div>
             <p class="card-text mt-3" th:text="${post.pieDeFoto_post}"></p>
         </div>
     </div>

@@ -44,6 +44,7 @@ public class AdminControlador {
 
 	@GetMapping("/admin/usuarios")
 	public String usuarios(Model model, Authentication authentication) {
+		try {
 		List<Usuario> listaUsuarios = usuarioRepositorio.findAll();
 		List<UsuarioDTO> listaUsuariosDTO = new ArrayList<>();
 		for (Usuario usuario : listaUsuarios) {
@@ -52,9 +53,13 @@ public class AdminControlador {
 		}
 		model.addAttribute("usuarios", listaUsuariosDTO);
 		return "usuarios";
+		}catch (Exception e) {
+			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.+Por+favor,+inténtelo+de+nuevo+más+tarde.";
+	    }
 	}
 	@GetMapping("/admin/posts")
 	public String posts(Model model, Authentication authentication) {
+		try {
 		List<Post> posts = postRepositorio.findAll();
 		List<PostDTO> listaPostDTO = posts.stream()
                 .map(postServicio::convertirPostADTO)
@@ -66,33 +71,44 @@ public class AdminControlador {
             postDTO.setUsuario_alias_post(postDTO.getUsuario().getAlias_usuario());
         }
         model.addAttribute("posts", listaPostDTO);
-		return "posts";
+		return "posts";}
+		catch (Exception e) {
+			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.+Por+favor,+inténtelo+de+nuevo+más+tarde.";
+	    }
 	}
 	@PostMapping("/admin/borrarPost")
     @ResponseBody
-    public String borrarPost(@RequestParam("postId") Long postId) {
+    public String borrarPost(@RequestParam("postId") Long postId,Model model) {
         try {
             postServicio.borrarPost(postId); // Suponiendo que tienes un método en tu servicio para borrar el post por su ID
             return "Post borrado correctamente";
         } catch (Exception e) {
-            e.printStackTrace();
-            return "Error al intentar borrar el post";
-        }
+        	return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.+Por+favor,+inténtelo+de+nuevo+más+tarde.";
+	    }
     }
 	@GetMapping("/admin/editar/{id}")
 	public String mostrarFormularioEdicion(@PathVariable Long id, Model model) {
+		try {
 		Usuario usuarioDAO = usuarioRepositorio.findById(id).orElse(null);
 		UsuarioDTO usuarioDTO = usuarioServicio.convertirUsuarioADTO(usuarioDAO);
 		model.addAttribute("usuario", usuarioDTO);
 		return "editarUsuario";
+		}catch (Exception e) {
+			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.+Por+favor,+inténtelo+de+nuevo+más+tarde.";
+	    }
 	}
 	@GetMapping("/admin/nuevoUsuario")
 	public String nuevoUsuario(Model model) {
+		try {
 		model.addAttribute("usuario", new UsuarioDTO());
 		return "nuevoUsuario";
+		}catch (Exception e) {
+			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.+Por+favor,+inténtelo+de+nuevo+más+tarde.";
+	    }
 	}
 	@PostMapping("/admin/registrar")
 	public String nuevoUsuarioRegistro(@ModelAttribute UsuarioDTO usuario, Model model) {
+		try {
 		Boolean registrado;
 		registrado = usuarioServicio.registrar(usuario);
 		if (registrado) {
@@ -101,10 +117,13 @@ public class AdminControlador {
 		} else {
 			return "usuarios";
 		}
+		}catch (Exception e) {
+			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.+Por+favor,+inténtelo+de+nuevo+más+tarde.";
+	    }
 	}
 	@PostMapping("/admin/gestionUsuario")
-	public String gestionUsuario(@ModelAttribute UsuarioDTO usuario,String accion) {
-		
+	public String gestionUsuario(@ModelAttribute UsuarioDTO usuario,String accion,Model model) {
+		try {
 		 if (accion.equals("guardar")) {
 			Usuario usuarioDAO=usuarioRepositorio.findById(usuario.getId_usuario()).orElse(null);
 			usuarioDAO.setNombreCompletoUsuario(usuario.getNombreCompleto_usuario());
@@ -120,5 +139,8 @@ public class AdminControlador {
 		} else {
 			return "usuarios";
 		}
+		}catch (Exception e) {
+			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.+Por+favor,+inténtelo+de+nuevo+más+tarde.";
+		    }
 	}
 }

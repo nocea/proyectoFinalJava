@@ -43,6 +43,9 @@
                     <input id="login-password" type="password" class="form-control ps-3" name="password" required>
             </div>
             <button type="submit" class="btn btn-dark btn-block">Iniciar Sesión</button>
+            <div th:if="${error}" class="alert alert-danger" role="alert">
+                    <p th:text="${error}"></p>
+                </div>
             <a th:href="@{/controller/recordarContrasena}"class="btn btn-link">¿Olvidaste tu contraseña?</a>
             <a th:href="@{/controller/registrar}"class="btn btn-link">¿No se ha registrado?</a>
         </form>

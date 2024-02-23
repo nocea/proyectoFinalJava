@@ -42,6 +42,7 @@ public class UsuarioNormalControlador {
 	ComentarioRepositorio comentarioRepositorio;
 	@GetMapping("/inicio/miCuenta")
 	public String miCuenta(Model model,Authentication authentication) {
+		try {
 		String username = authentication.getName();
 		Usuario usuario = usuarioRepositorio.findFirstByEmailUsuario(username);
 		UsuarioDTO usuarioDTO = usuarioServicio.convertirUsuarioADTO(usuario);
@@ -50,9 +51,13 @@ public class UsuarioNormalControlador {
 		model.addAttribute("imagenBase64", imagenBase64);
 		model.addAttribute("usuarioDTO", usuarioDTO);
 		return "miCuenta";
+		}catch (Exception e) {
+			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.+Por+favor,+inténtelo+de+nuevo+más+tarde.";
+	    }
 	}
 	@GetMapping("/inicio/paraTi")
 	public String paraTi(Model model) {
+		try {
 		List<Post> posts = postRepositorio.findAll();
 		List<PostDTO> listaPostDTO = posts.stream()
                 .map(postServicio::convertirPostADTO)
@@ -65,43 +70,58 @@ public class UsuarioNormalControlador {
         }
         model.addAttribute("posts", listaPostDTO);
 		return "paraTi";
+		}catch (Exception e) {
+			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.+Por+favor,+inténtelo+de+nuevo+más+tarde.";
+	    }
 	}
 	@GetMapping("/inicio/crearPost")
 	public String crearPost(Model model) {
+		try {
 		return "crearPost";
+		}catch (Exception e) {
+			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.+Por+favor,+inténtelo+de+nuevo+más+tarde.";
+	    }
 	}
 	@PostMapping("/inicio/guardarPost")
     public String guardarPost(@RequestParam("titulo") String titulo,
                               @RequestParam("imagen") MultipartFile imagen,
-                              @RequestParam("pieDeFoto") String pieDeFoto) {
+                              @RequestParam("pieDeFoto") String pieDeFoto,Model model) {
+		try {
+			System.out.println("entra en guardar post");
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        try {
+        System.out.println("obtiene el usuario:"+username);
         Usuario usuario=usuarioRepositorio.findFirstByEmailUsuario(username);
         byte[] imagenBytes = imagen.getBytes();
+        System.out.println("obtiene la imagen");
         Post post = new Post();
         post.setTitulo_post(titulo);
         post.setImagen_post(imagenBytes);
         post.setPieDeFoto_post(pieDeFoto);
         post.setUsuario(usuario);
         postRepositorio.save(post);
-        
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
+        System.out.println("guarda el post");
 		return "redirect:/inicio/paraTi";
+		}catch (Exception e) {
+			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.+Por+favor,+inténtelo+de+nuevo+más+tarde.";
+	    }
     }
 	@GetMapping("/inicio/comentar/{id_post}")
     public String mostrarFormularioComentario(@PathVariable("id_post") Long idPost, Model model) {
+		try {
         model.addAttribute("id_post", idPost);
         List<Comentario> listaComentarios = comentarioRepositorio.findByPostId(idPost);
         model.addAttribute("comentarios",listaComentarios);
         
         return "comentarPost";
+		}catch (Exception e) {
+			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.+Por+favor,+inténtelo+de+nuevo+más+tarde.";
+	    }
     }
 	@PostMapping("/inicio/guardarComentario")
 	public String guardarComentario(@RequestParam("id_post") Long postid,
-			@RequestParam("contenido") String textoComentario) {
+			@RequestParam("contenido") String textoComentario,Model model) {
+		try {
 		Post post = postRepositorio.findById(postid).orElse(null);
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
@@ -111,6 +131,9 @@ public class UsuarioNormalControlador {
 		nuevoComentario.setUsuario(usuarioComentario);
 		nuevoComentario.setPost(post);
 		comentarioRepositorio.save(nuevoComentario);
-		return "index";
+		return "redirect:/inicio/paraTi";
+		}catch (Exception e) {
+			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.+Por+favor,+inténtelo+de+nuevo+más+tarde.";
+	    }
 	}
 }
