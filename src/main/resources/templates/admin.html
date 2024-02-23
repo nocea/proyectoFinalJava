@@ -33,8 +33,18 @@
     <div id="inicio"></div>
     <div class="container contenido1" style="margin-top: 70px;">
         <main role="main" class="pb-3">
-    	<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin/usuarios}" >Administración Usuarios</a>
-    	<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin/posts}" >Administración Posts</a>
+    	<div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="text-center mb-3">
+                    <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin/usuarios}" class="btn btn-dark">Administración Usuarios</a>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="text-center mb-3">
+                    <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin/posts}" class="btn btn-dark">Administración Posts</a>
+                </div>
+            </div>
+        </div>
     </main>
     </div>
 </body>

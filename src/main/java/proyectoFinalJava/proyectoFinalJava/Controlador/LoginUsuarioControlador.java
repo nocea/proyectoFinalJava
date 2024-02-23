@@ -165,6 +165,14 @@ public class LoginUsuarioControlador {
 			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.+Por+favor,+inténtelo+de+nuevo+más+tarde.";
 	    }
 	}
+	@GetMapping("/controller/correoEnviado")
+	public String correoEnviado(Model model) {
+		try {
+		return "correoEnviado";
+		}catch (Exception e) {
+			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.+Por+favor,+inténtelo+de+nuevo+más+tarde.";
+	    }
+	}
 	@PostMapping("/controller/mandarEmail")
 	public String mandarEmail(@RequestParam("username") String username,Model model) {
 		try {
@@ -173,7 +181,7 @@ public class LoginUsuarioControlador {
 		cadena_token=usuarioServicio.generarToken();
 		System.out.println("Email al que mandar:"+cadena_token);
 		usuarioServicio.EnviarEmailRecuperar(username,cadena_token);
-		return "recordarContrasena";
+		return "correoEnviado";
 		}catch (Exception e) {
 			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.+Por+favor,+inténtelo+de+nuevo+más+tarde.";
 	    }
@@ -198,11 +206,12 @@ public class LoginUsuarioControlador {
 		try {
 		Usuario usuario = usuarioRepositorio.findFirstByEmailUsuario(email);
 		Token tokenValido=tokenRepositorio.findByCadenaToken(token);
+		
 		Calendar calendar = Calendar.getInstance();
 		if(usuario != null && tokenValido != null && tokenValido.getFechafinToken().after(calendar)) {
 			usuario.setPasswd_usuario(passwordEncoder.encode(contrasenaNueva));
 			usuarioRepositorio.save(usuario);
-			return "cambiarContrasena";
+			return "cambiarContrasenaExitoso";
 		}
 		else {
 		return "ERRORPAGE";
@@ -211,5 +220,12 @@ public class LoginUsuarioControlador {
 			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.+Por+favor,+inténtelo+de+nuevo+más+tarde.";
 	    }
 	}
-		
+	@GetMapping("/controller/cambiarContrasenaExitoso")
+	public String cambiarContrasenaExitoso(Model model) {
+		try {
+		return "cambiarContrasenaExitoso";
+		}catch (Exception e) {
+			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.+Por+favor,+inténtelo+de+nuevo+más+tarde.";
+	    }
+	}
 }

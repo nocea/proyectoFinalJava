@@ -36,7 +36,7 @@
         <main role="main" class="pb-3">
     <div class="container">
         <h1>Lista de Usuarios</h1>
-        <a th:href="@{/admin/nuevoUsuario}" class="btn btn-primary mb-3">Nuevo Usuario</a>
+        <a th:href="@{/admin/nuevoUsuario}" class="btn btn-dark mb-3">Nuevo Usuario</a>
         <div class="form-group">
             <input type="text" class="form-control" id="txtEmailBusqueda" placeholder="Buscar por Email">
         </div>
@@ -55,7 +55,7 @@
                             <td th:text="${usuario.nombreCompleto_usuario}"></td>
                             <td th:text="${usuario.email_usuario}"></td>
                             <td><td>
-                                <a th:href="@{'/admin/editar/' + ${usuario.id_usuario}}" class="btn btn-primary">Editar</a>
+                                <a th:href="@{'/admin/editar/' + ${usuario.id_usuario}}" class="btn btn-dark">Editar</a>
                             </td></td>
                         </tr>
             </tbody>

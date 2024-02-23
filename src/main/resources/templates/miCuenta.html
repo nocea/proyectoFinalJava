@@ -52,6 +52,17 @@
                 <p><strong>Teléfono:</strong> <span th:text="${usuarioDTO.movil_usuario}"></span></p>
                 <p><strong>Contraseña:</strong>*********</p>
             </div>
+            <form th:action="@{/inicio/cambiarImagen}" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="imagen" class="form-label">Subir foto de perfil:</label>
+        <div class="custom-file">
+            <input type="file" class="custom-file-input" id="imagen" name="imagen" th:required="true" accept="image/*">
+            <label class="custom-file-label" for="imagen">Seleccionar archivo...</label>
+        </div>
+        <small id="imagenHelpBlock" class="form-text text-muted">Formatos permitidos: JPEG, JPG, PNG. Tamaño máximo: 5MB.</small>
+    </div>
+    <button type="submit" class="btn btn-dark btn-sm btn-block" style="max-width: 150px;">Cambiar foto de perfil</button>
+</form>
         </div>
     </div>
         </main>

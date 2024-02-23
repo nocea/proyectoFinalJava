@@ -1,4 +1,11 @@
-﻿.post-image {
+﻿.caja-comentarios {
+    background-color: #333;
+    color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.post-image {
     max-width: 100%; /* Establece un ancho máximo del 100% del contenedor */
     height: auto; /* Permite que la altura se ajuste automáticamente para mantener la proporción de la imagen */
 }

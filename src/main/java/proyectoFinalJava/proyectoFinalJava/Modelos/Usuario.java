@@ -36,7 +36,7 @@ public class Usuario {
 	}
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private List<Post> posts;
-	@OneToMany(mappedBy = "usuario")
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
 	private List<Comentario> comentarios;
 	public String getRol() {
 		return rol;	

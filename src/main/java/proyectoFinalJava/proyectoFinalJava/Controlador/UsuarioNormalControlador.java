@@ -106,6 +106,20 @@ public class UsuarioNormalControlador {
 			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.+Por+favor,+inténtelo+de+nuevo+más+tarde.";
 	    }
     }
+	@PostMapping("/inicio/cambiarImagen")
+    public String guardarPost(@RequestParam("imagen") MultipartFile imagen) {
+		try {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        Usuario usuario=usuarioRepositorio.findFirstByEmailUsuario(username);
+        byte[] imagenBytes = imagen.getBytes();
+        usuario.setImagen_usuario(imagenBytes);
+        usuarioRepositorio.save(usuario);
+        return "redirect:/inicio/miCuenta";
+		}catch (Exception e) {
+			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.+Por+favor,+inténtelo+de+nuevo+más+tarde.";
+	    }
+	}
 	@GetMapping("/inicio/comentar/{id_post}")
     public String mostrarFormularioComentario(@PathVariable("id_post") Long idPost, Model model) {
 		try {

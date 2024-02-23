@@ -82,7 +82,7 @@ public class UsuarioServicioImpl implements UsuarioServicio {
          helper.setTo(email);
          helper.setSubject("Confirmar Registro BlogShip");
          
-         helper.setText(urlRecuperar, true);
+         helper.setText("Con este enlace puede confirmar su registro:"+urlRecuperar, true);
          javaMailSender.send(mensaje);
 		}catch(Exception ex) {
 			System.out.println("error al mandar email");
@@ -142,7 +142,7 @@ public class UsuarioServicioImpl implements UsuarioServicio {
          helper.setTo(email);
          helper.setSubject("Recuperar Contraseña BlogShip");
          
-         helper.setText(urlRecuperar, true);
+         helper.setText("Con este enlace puede cambiar su contraseña:"+urlRecuperar, true);
          javaMailSender.send(mensaje);
 		}catch(Exception ex) {
 			System.out.println("error al mandar email");
