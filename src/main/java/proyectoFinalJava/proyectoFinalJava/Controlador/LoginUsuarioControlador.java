@@ -129,7 +129,6 @@ public class LoginUsuarioControlador {
         }
 		// Se agrega un nuevo objeto UsuarioDTO al modelo para el formulario de login
 		model.addAttribute("usuario", new UsuarioDTO());
-		Util.log("Se ha mostrado la vista de login");
 		return "login";
 		}catch (Exception e) {
 			Util.log("Se ha producido un error al mostrar la vista de login");
@@ -222,12 +221,18 @@ public class LoginUsuarioControlador {
 	public String mandarEmail(@RequestParam("username") String username,Model model) {
 		try {
 		System.out.println("Email al que mandar:"+username);
+		Usuario usuario=usuarioRepositorio.findFirstByEmailUsuario(username);
+		if(usuario!=null) {
 		String cadena_token;		
 		cadena_token=usuarioServicio.generarToken();
 		System.out.println("Email al que mandar:"+cadena_token);
 		usuarioServicio.EnviarEmailRecuperar(username,cadena_token);
 		Util.log("Se ha enviado un email");
 		return "correoEnviado";
+		}
+		else {
+			return "redirect:/controller/ERRORPAGE?error=No+existe+el+email+introducido+en+la+base+de+datos";
+		}
 		}catch (Exception e) {
 			Util.log("Se ha producido un error al enviar un email");
 			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.";	    }

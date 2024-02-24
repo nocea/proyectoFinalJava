@@ -18,8 +18,9 @@ public class Usuario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id_usuario;
 	//Lo tengo que llamar asi para que me lo coja bien el repositorio y busque por el igual que el email.
+	@Column(length=50)
 	private String nombreCompletoUsuario;
-	@Column(name = "email_usuario", nullable = false, unique = true, length = 100)
+	@Column(name = "email_usuario", nullable = false, unique = true, length = 50)
 	private String emailUsuario;
 	private String alias_usuario;
 	private String movil_usuario;

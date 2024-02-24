@@ -109,12 +109,11 @@ public class AdminControlador {
 	 * @return
 	 */
 	@PostMapping("/admin/borrarPost")
-    @ResponseBody
     public String borrarPost(@RequestParam("postId") Long postId,Model model) {
         try {
             postServicio.borrarPost(postId); // Suponiendo que tienes un método en tu servicio para borrar el post por su ID
             Util.log("se ha borrado un post"+postId);
-            return "Post borrado correctamente";
+            return "redirect:/admin/posts";
         } catch (Exception e) {
         	Util.log("se ha producido un error al borrar un post");
 			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.";
@@ -170,7 +169,7 @@ public class AdminControlador {
 		if (registrado) {
 			System.out.println("registrado");
 			Util.log("se ha registrado un usuario desde la vista admin");
-			return "usuarios";
+			return "redirect:/admin/usuarios";
 		} else {
 			return "usuarios";
 		}

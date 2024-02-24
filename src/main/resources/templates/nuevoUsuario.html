@@ -38,7 +38,7 @@
             <h2 class="text-center mb-4">Registrate en BlogShip <i class="bi bi-rocket-takeoff"></i>!</h2>
             <div class="form-group">
                 <label for="nombreCompleto_usuario"><i class="bi bi-caret-right"></i>Nombre Completo</label>
-                <input id="nombreCompleto_usuario" th:field="*{nombreCompleto_usuario}"type="text" class="form-control" placeholder="Juan GarcÃ­a PÃ©rez" required>
+                <input id="nombreCompleto_usuario" th:field="*{nombreCompleto_usuario}"type="text" class="form-control" placeholder="Juan García Pérez" required>
             </div>
             <div class="form-group">
                 <label for="movil_usuario"><i class="bi bi-caret-right"></i>Teléfono</label>
@@ -55,10 +55,7 @@
             <div class="form-group">
                 <label for="passwd_usuario"><i class="bi bi-asterisk"></i>Contraseña</label>
                 <div class="input-group">
-                    <input  id="passwd_usuario" th:field="*{passwd_usuario}" type="password" class="form-control" pattern="^(?=.*[A-Z])(?=.*\d).{8,}$" required>
-                    <div class="input-group-append">
-                        <button type="button" class="btn btn-outline-secondary" id="togglePassword">Mostrar</button>
-                    </div>
+                    <input  id="passwd_usuario" th:field="*{passwd_usuario}" type="text" class="form-control" pattern="^(?=.*[A-Z])(?=.*\d).{8,}$" required>
                 </div>
                 <small id="passwordHelp" class="form-text text-muted">
                     La contraseña debe contener al menos 8 carácteres,una letra mayúscula y un número.
