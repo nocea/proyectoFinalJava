@@ -1,6 +1,6 @@
 package proyectoFinalJava.proyectoFinalJava.DTO;
 public class UsuarioDTO {
-
+	//atributos
 	private Long id_usuario;
 	private String nombreCompleto_usuario;
 	private String email_usuario;
@@ -9,6 +9,7 @@ public class UsuarioDTO {
 	private String passwd_usuario;
 	private String rol;
 	private byte[] imagen_usuario;
+	//gets y sets
 	public byte[] getImagen_usuario() {
 		return imagen_usuario;
 	}
@@ -57,6 +58,7 @@ public class UsuarioDTO {
 	public void setRol_usuario(String rol_usuario) {
 		this.rol = rol_usuario;
 	}
+	//constructores
 	public UsuarioDTO(Long id_usuario,String nombreCompleto_usuario, String email_usuario, String alias_usuario,
 			String movil_usuario, String passwd_usuario, String rol_usuario) {
 		super();

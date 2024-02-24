@@ -41,14 +41,16 @@ public class Security{
 	@Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            //.csrf(csrf -> csrf.disable())
             // Configura las reglas de autorización para las solicitudes HTTP.
             .authorizeHttpRequests(auth -> 
                 auth
                 	// Permite el acceso público a ciertos recursos y direcciones de URL que no requieren autenticación.
                     .requestMatchers("/webjars/**", "/css/**", "/script/**", "/controller/**").permitAll()
+                    //solo los que tiene rol admin tienen permiso a estas vistas
                     .requestMatchers("/admin/**").hasRole("ADMIN")
+                    //solo USUARIO
                     .requestMatchers("/inicio/**").hasRole("USUARIO")
+                    //ambios
                     .requestMatchers("/index/**").hasAnyRole("ADMIN","USUARIO")
                     .anyRequest().authenticated()// Exige autenticación para cualquier otra solicitud.
             )

@@ -10,7 +10,9 @@ import proyectoFinalJava.proyectoFinalJava.Repositorio.PostRepositorio;
 
 @Service
 public class PostServicioImpl implements PostServicio{
-
+	/**
+	 * Método para convertir un post a dto
+	 */
 	@Override
 	public PostDTO convertirPostADTO(Post post) {
 		PostDTO postDTO =new PostDTO();
@@ -23,6 +25,9 @@ public class PostServicioImpl implements PostServicio{
 	}
 	@Autowired
 	PostRepositorio postRepositorio;
+	/**
+	 * Método para borrar un post segun su id
+	 */
 	@Transactional
     public void borrarPost(Long postId) {
         // Buscar el post por su ID en la base de datos

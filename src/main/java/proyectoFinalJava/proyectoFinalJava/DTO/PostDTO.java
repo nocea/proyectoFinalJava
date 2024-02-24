@@ -3,22 +3,15 @@ package proyectoFinalJava.proyectoFinalJava.DTO;
 import proyectoFinalJava.proyectoFinalJava.Modelos.Usuario;
 
 public class PostDTO {
-	
-	
-		
+		//atributos
 	    private Long id_post;
-
-	   
 	    private String titulo_post;
-
-	   
 	    private byte[] imagen_post; 
-
 	    private String string_imagen_post;
 	    private String pieDeFoto_post;
 	    private String usuario_alias_post;
-
-	    
+	    private Usuario usuario;
+	    //gets y sets
 	    public String getUsuario_alias_post() {
 			return usuario_alias_post;
 		}
@@ -27,11 +20,6 @@ public class PostDTO {
 		public void setUsuario_alias_post(String usuario_alias_post) {
 			this.usuario_alias_post = usuario_alias_post;
 		}
-
-
-		private Usuario usuario;
-
-
 		public Long getId_post() {
 			return id_post;
 		}
@@ -90,6 +78,7 @@ public class PostDTO {
 		public void setUsuario(Usuario usuario) {
 			this.usuario = usuario;
 		}
+		//contructores
 		public PostDTO(Long id_post, String titulo_post, byte[] imagen_post, String string_imagen_post,
 				String pieDeFoto_post, String usuario_alias_post, Usuario usuario) {
 			super();

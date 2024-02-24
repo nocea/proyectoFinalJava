@@ -14,11 +14,13 @@ import proyectoFinalJava.proyectoFinalJava.Repositorio.UsuarioRepositorio;
 public class UserDetailsServiceImpl implements UserDetailsService {
 	@Autowired
 	private UsuarioRepositorio usuarioRepository;
-
+	// Método para cargar detalles de usuario por nombre de usuario
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		System.out.printf("\nIntento de inicio de sesión para el usuario: %s\n", username);
+		//System.out.printf("\nIntento de inicio de sesión para el usuario: %s\n", username);
+		//buysco el usuario por su email
 		Usuario user = usuarioRepository.findFirstByEmailUsuario(username);
+		//Userbuilder sirve para represeentar los detalles del usuario en el proceso de autentificación
 		UserBuilder builder = null;
 		//Para comprobar que ha pinchado en el enlace de registro y se ha cammbiado el registro a true
 		System.out.println(user.getRegistrado());

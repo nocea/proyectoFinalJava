@@ -31,9 +31,11 @@ import proyectoFinalJava.proyectoFinalJava.Modelos.Usuario;
 import proyectoFinalJava.proyectoFinalJava.Repositorio.TokenRepositorio;
 import proyectoFinalJava.proyectoFinalJava.Repositorio.UsuarioRepositorio;
 import proyectoFinalJava.proyectoFinalJava.Servicios.UsuarioServicio;
+import proyectoFinalJava.proyectoFinalJava.Util.Util;
 
 @Controller
 public class LoginUsuarioControlador {
+	//importo servicios y repositorios
 	@Autowired
 	private UsuarioServicio usuarioServicio;
 	@Autowired
@@ -44,10 +46,17 @@ public class LoginUsuarioControlador {
 	TokenRepositorio tokenRepositorio;
 	@Autowired
     private BCryptPasswordEncoder passwordEncoder;
-
+	/**
+	 * metodo para validar el inicio de sesion
+	 * @param username
+	 * @param password
+	 * @param model
+	 * @return
+	 */
 	@PostMapping("/controller/login-post")
     public String loginPost(@RequestParam("username") String username, @RequestParam("password") String password,Model model) {
 		try {
+			
 		Usuario usuario = usuarioRepositorio.findFirstByEmailUsuario(username);
         // Autenticar al usuario utilizando el AuthenticationManager
         Authentication authentication = authenticationManager.authenticate(
@@ -56,9 +65,11 @@ public class LoginUsuarioControlador {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UsuarioDTO usuarioDTO = usuarioServicio.convertirUsuarioADTO(usuario);
         model.addAttribute("usuarioDTO", usuarioDTO);
+        Util.log("Se ha iniciado sesión con el usuario:"+username);
         return "redirect:/index";
 		}
 		catch (AuthenticationException e) {
+			Util.log("Se ha producido un error en el inicio de sesión");
             // Manejar errores de autenticación
             model.addAttribute("error", "Credenciales inválidas. Por favor, inténtelo de nuevo.");
             // Se agrega un nuevo objeto UsuarioDTO al modelo para el formulario de login
@@ -66,27 +77,50 @@ public class LoginUsuarioControlador {
             return "login";
         }
 		 catch (Exception e) {
+			 Util.log("Se ha producido un error en el inicio de sesión");
 			 return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.";
 		    }
     }
+	/**
+	 * metodo para mostrar el index
+	 * @param model
+	 * @param authentication
+	 * @return
+	 */
 	@GetMapping("/index")
     public String index(Model model, Authentication authentication) {
 		try {
+			Util.log("Se ha mostrado la vista index");
         return "index";
         }catch (Exception e) {
+        	Util.log("Se ha producido un error al mostrar la vista index");
         	return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.";
 	    }
 		
     }
+	/**
+	 * metodo para cerrar sesion
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/controller/logout")
     public String logout(Model model) {
 		try {
+			//lo unico que hace es poner la autentificación a null
         SecurityContextHolder.getContext().setAuthentication(null);
+        Util.log("Se ha cerrrado sesión de un usuario");
         return "redirect:/controller/login";
 		}catch (Exception e) {
+			Util.log("Se ha producido un error cerrar sesión de un usuario");
 			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.";
 	    }// Redirigir a la página de inicio de sesión
 	}
+	/**
+	 * metodo para mostrar la vista de login
+	 * @param error
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/controller/login")
 	public String login(@RequestParam(value = "error", required = false) String error,Model model) {
 		try {
@@ -95,16 +129,22 @@ public class LoginUsuarioControlador {
         }
 		// Se agrega un nuevo objeto UsuarioDTO al modelo para el formulario de login
 		model.addAttribute("usuario", new UsuarioDTO());
+		Util.log("Se ha mostrado la vista de login");
 		return "login";
 		}catch (Exception e) {
+			Util.log("Se ha producido un error al mostrar la vista de login");
 			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.";
 	    }
 	}
-
+	/**
+	 * Método paramostrar la vista de registro
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/controller/registrar")
 	public String registrarGet(Model model) {
 		try {
-		System.out.println("registrar");
+		//System.out.println("registrar");
 		model.addAttribute("usuario", new UsuarioDTO());
 		return "registro";
 		}
@@ -112,6 +152,12 @@ public class LoginUsuarioControlador {
 			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.";
 	    }
 	    }
+	/**
+	 * Método para registrar un usuario en la base de datos
+	 * @param usuario
+	 * @param model
+	 * @return
+	 */
 	@PostMapping("/controller/registrar")
 	public String registrarPost(@ModelAttribute UsuarioDTO usuario, Model model) {
 		try {
@@ -119,13 +165,14 @@ public class LoginUsuarioControlador {
 		registrado = usuarioServicio.registrar(usuario);
 		if (registrado) {
 			System.out.println("registrado");
+			Util.log("Se ha registrado un usuario");
 			return "redirect:/controller/registroExitoso";
 		} else {
-			return "redirect:/controller/ERRORPAGE";
+			return "redirect:/controller/ERRORPAGE?error=Ese+email+ya+esta+registrado";	
 		}
 		}catch (Exception e) {
-			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.+Por+favor,+inténtelo+de+nuevo+más+tarde.";
-	    
+			Util.log("Se ha producido un error en el registro de un usuario");
+			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.";	    
 	    }
 	}
 
@@ -135,8 +182,7 @@ public class LoginUsuarioControlador {
 		model.addAttribute("usuario", new UsuarioDTO());
 		return "registroExitoso";
 		}catch (Exception e) {
-			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.+Por+favor,+inténtelo+de+nuevo+más+tarde.";
-	    }
+			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.";	    }
 	}
 	@GetMapping("controller/confirmarRegistro/{email}")
 	public String confirmarRegistro(@PathVariable String email,Model model) {
@@ -144,10 +190,11 @@ public class LoginUsuarioControlador {
 		Usuario usuario = usuarioRepositorio.findFirstByEmailUsuario(email);
 		usuario.setRegistrado(true);
 		usuarioRepositorio.save(usuario);
+		Util.log("Se ha confirmado el inicio de sesión de un usuario");
 		return "registroConfirmado";
 		}catch (Exception e) {
-			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.+Por+favor,+inténtelo+de+nuevo+más+tarde.";
-	    }
+			Util.log("Se ha producido un error al confirmar el registro de un usuario");
+			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.";	    }
 	}
 	@GetMapping("/controller/ERRORPAGE")
 	public String ERRORPAGE(@RequestParam(name = "error", required = false) String error, Model model) {
@@ -162,16 +209,14 @@ public class LoginUsuarioControlador {
 		try {
 		return "recordarContrasena";
 		}catch (Exception e) {
-			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.+Por+favor,+inténtelo+de+nuevo+más+tarde.";
-	    }
+			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.";	    }
 	}
 	@GetMapping("/controller/correoEnviado")
 	public String correoEnviado(Model model) {
 		try {
 		return "correoEnviado";
 		}catch (Exception e) {
-			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.+Por+favor,+inténtelo+de+nuevo+más+tarde.";
-	    }
+			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.";	    }
 	}
 	@PostMapping("/controller/mandarEmail")
 	public String mandarEmail(@RequestParam("username") String username,Model model) {
@@ -181,23 +226,20 @@ public class LoginUsuarioControlador {
 		cadena_token=usuarioServicio.generarToken();
 		System.out.println("Email al que mandar:"+cadena_token);
 		usuarioServicio.EnviarEmailRecuperar(username,cadena_token);
+		Util.log("Se ha enviado un email");
 		return "correoEnviado";
 		}catch (Exception e) {
-			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.+Por+favor,+inténtelo+de+nuevo+más+tarde.";
-	    }
+			Util.log("Se ha producido un error al enviar un email");
+			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.";	    }
 	}
 	@GetMapping("/controller/cambiarContrasena/{email}/{token}")
 	public String recuperarExitoso(@PathVariable String email,@PathVariable String token,Model model) {
 		try {
-		System.out.println("cambiar contraseña");
-		System.out.println(email);
-		System.out.println(token);
 		model.addAttribute("email", email);
 		model.addAttribute("token", token);
 		return "cambiarContrasena";
 		}catch (Exception e) {
-			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.+Por+favor,+inténtelo+de+nuevo+más+tarde.";
-	    }
+			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.";	    }
 	}
 	
 	@PostMapping("/controller/confirmarCambioContrasena")
@@ -211,21 +253,21 @@ public class LoginUsuarioControlador {
 		if(usuario != null && tokenValido != null && tokenValido.getFechafinToken().after(calendar)) {
 			usuario.setPasswd_usuario(passwordEncoder.encode(contrasenaNueva));
 			usuarioRepositorio.save(usuario);
+			Util.log("Se ha cambiado la contraseña de un usuario"+email);
 			return "cambiarContrasenaExitoso";
 		}
 		else {
-		return "ERRORPAGE";
+			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.";
 		}
 		}catch (Exception e) {
-			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.+Por+favor,+inténtelo+de+nuevo+más+tarde.";
-	    }
+			Util.log("Se ha producido un error al cambiar la contraseña de un usuario");
+			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.";	    }
 	}
 	@GetMapping("/controller/cambiarContrasenaExitoso")
 	public String cambiarContrasenaExitoso(Model model) {
 		try {
 		return "cambiarContrasenaExitoso";
 		}catch (Exception e) {
-			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.+Por+favor,+inténtelo+de+nuevo+más+tarde.";
-	    }
+			return "redirect:/controller/ERRORPAGE?error=Se+ha+producido+un+error+inesperado.";	    }
 	}
 }

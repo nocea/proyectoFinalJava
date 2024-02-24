@@ -36,6 +36,9 @@ public class UsuarioServicioImpl implements UsuarioServicio {
     private TokenRepositorio tokenRepositorio;
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
+	/**
+	 * método para pasar de dto a dao
+	 */
 	@Override
 	public Usuario usuarioDTOaUsuario(UsuarioDTO usuarioDTO) {
 		String imagePath = "src/main/resources/static/fotoInicial.png";
@@ -45,6 +48,11 @@ public class UsuarioServicioImpl implements UsuarioServicio {
 				usuarioDTO.getPasswd_usuario(), "ROLE_USUARIO",false,imagen_usuario);
 		return usuarioDAO;
 	}
+	/**
+	 * metodo para convertir un string de una imagen a array
+	 * @param imagePath
+	 * @return
+	 */
 	private static byte[] convertImageToByteArray(String imagePath) {
         byte[] imageData = null;
         try (FileInputStream fis = new FileInputStream(new File(imagePath))) {
@@ -57,6 +65,9 @@ public class UsuarioServicioImpl implements UsuarioServicio {
         }
         return imageData;
     }
+	/**
+	 * Método para registrar un usuario
+	 */
 	@Override
 	public Boolean registrar(UsuarioDTO usuarioDTO) {
 		Usuario usuarioDAO=usuarioDTOaUsuario(usuarioDTO);
@@ -71,6 +82,9 @@ public class UsuarioServicioImpl implements UsuarioServicio {
 		}
 		
 	}
+	/**
+	 * Método para enviar el email de registro
+	 */
 	@Override
 	public void EnviarEmailRegistro(String email) {
 		String urlRecuperar="http://localhost:8080/controller/confirmarRegistro/"+email;
@@ -89,6 +103,9 @@ public class UsuarioServicioImpl implements UsuarioServicio {
 		}
 		
 	}
+	/**
+	 * Método para convertir un usuario dao a dto
+	 */
 	@Override
 	public UsuarioDTO convertirUsuarioADTO(Usuario usuario) {
 	    UsuarioDTO usuarioDTO = new UsuarioDTO();
@@ -105,6 +122,9 @@ public class UsuarioServicioImpl implements UsuarioServicio {
 	    
 	    return usuarioDTO;
 	}
+	/**
+	 * método que crea el usuario admin al iniciar la aplicación
+	 */
 	private void inicializarUsuarioAdmin() {	
 		if (!usuarioRepositorio.existsByNombreCompletoUsuario("admin")) {
 			Usuario admin = new Usuario();
@@ -117,6 +137,9 @@ public class UsuarioServicioImpl implements UsuarioServicio {
 			usuarioRepositorio.save(admin);
 		}
 	}
+	/**
+	 * método para generar un token nuevo
+	 */
 	@Override
 	public String generarToken() {
 		UUID uuid = UUID.randomUUID();
@@ -131,6 +154,9 @@ public class UsuarioServicioImpl implements UsuarioServicio {
 	}
 	@Autowired
 	private JavaMailSender javaMailSender;	
+	/**
+	 * método para enviar el email de recuperar
+	 */
 	@Override
 	public void EnviarEmailRecuperar(String email, String token) {
 		String urlRecuperar="http://localhost:8080/controller/cambiarContrasena/"+email+"/"+token;
