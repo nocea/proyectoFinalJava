@@ -1,1 +1,57 @@
 
+2024-02-28 11:15:45 - Se ha registrado un usuario
+2024-02-28 11:15:53 - Se ha confirmado el inicio de sesión de un usuario
+2024-02-28 11:16:04 - Se ha mostrado la vista index
+2024-02-28 11:16:05 - Se ha cerrrado sesión de un usuario
+2024-02-28 11:16:13 - Se ha enviado un email
+2024-02-28 11:20:47 - Se ha mostrado la vista index
+2024-02-28 11:32:29 - Se ha guardado un post nuevo
+2024-02-28 11:32:37 - Se ha cerrrado sesión de un usuario
+2024-02-28 11:32:44 - Se ha mostrado la vista index
+2024-02-28 11:32:45 - se ha entrado en la vista admin
+2024-02-28 11:32:45 - se ha entrado en la vista admin/post
+2024-02-28 11:32:46 - se ha borrado un post6
+2024-02-28 11:32:46 - se ha entrado en la vista admin/post
+2024-02-28 11:32:51 - Se ha cerrrado sesión de un usuario
+2024-02-28 11:32:59 - Se ha mostrado la vista index
+2024-02-28 11:33:32 - Se ha guardado un post nuevo
+2024-02-28 11:34:16 - Se ha guardado un post nuevo
+2024-02-28 11:34:20 - Se ha cerrrado sesión de un usuario
+2024-02-28 11:34:36 - Se ha mostrado la vista index
+2024-02-28 11:34:38 - se ha entrado en la vista admin
+2024-02-28 11:34:38 - se ha entrado en la vista admin/post
+2024-02-28 11:34:40 - se ha borrado un post7
+2024-02-28 11:34:40 - se ha entrado en la vista admin/post
+2024-02-28 11:34:48 - Se ha cerrrado sesión de un usuario
+2024-02-28 11:34:57 - Se ha mostrado la vista index
+2024-02-28 11:44:16 - Se ha añadido un nuevo  comentario al post:8
+2024-02-28 11:44:33 - Se ha añadido un nuevo  comentario al post:8
+2024-02-28 11:48:37 - Se ha cerrrado sesión de un usuario
+2024-02-28 11:53:26 - Se ha mostrado la vista index
+2024-02-28 11:54:56 - Se ha mostrado la vista index
+2024-02-28 11:54:58 - se ha entrado en la vista admin
+2024-02-28 11:57:11 - se ha entrado en la vista admin/usuarios
+2024-02-28 12:01:52 - se ha entrado en la vista /admin/nuevoUsuario
+2024-02-28 12:03:47 - se ha entrado en la vista admin/usuarios
+2024-02-28 12:03:48 - Se ha entrado en la vista de /admin/editar/5
+2024-02-28 12:04:37 - Se ha mostrado la vista index
+2024-02-28 12:04:38 - se ha entrado en la vista admin
+2024-02-28 12:04:39 - se ha entrado en la vista admin/usuarios
+2024-02-28 12:04:40 - Se ha entrado en la vista de /admin/editar/5
+2024-02-28 12:07:34 - se ha entrado en la vista admin
+2024-02-28 12:07:35 - Se ha cerrrado sesión de un usuario
+2024-02-28 12:07:44 - Se ha mostrado la vista index
+2024-02-28 12:07:44 - se ha entrado en la vista admin
+2024-02-28 12:07:46 - se ha entrado en la vista admin/usuarios
+2024-02-28 12:07:49 - se ha entrado en la vista admin
+2024-02-28 12:07:50 - se ha entrado en la vista admin/post
+2024-02-28 12:09:58 - Se ha mostrado la vista index
+2024-02-28 12:09:59 - se ha entrado en la vista admin
+2024-02-28 12:09:59 - se ha entrado en la vista admin/usuarios
+2024-02-28 12:10:01 - Se ha entrado en la vista de /admin/editar/5
+2024-02-28 12:10:02 - se ha entrado en la vista admin/usuarios
+2024-02-28 12:10:03 - se ha entrado en la vista /admin/nuevoUsuario
+2024-02-28 12:10:03 - se ha entrado en la vista admin/usuarios
+2024-02-28 12:10:04 - se ha entrado en la vista admin
+2024-02-28 12:10:04 - se ha entrado en la vista admin/post
+2024-02-28 12:10:06 - Se ha cerrrado sesión de un usuario
